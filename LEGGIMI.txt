@@ -1,0 +1,33 @@
+# Financial Dashboard — PWA v3.1
+
+## Contenuto
+- `index.html`: applicazione (guida utente integrata)
+- `manifest.webmanifest`, `service-worker.js`: installazione come app e funzionamento offline
+- `icons/`: nuove icone (72–512 px, maskable 192/512, apple-touch-icon 180, favicon 64)
+- `Guida_Utente_FinDashboard_Ultimate_Pro.pdf`: guida PDF originale (v2.0, con il vecchio nome), apribile dall'app
+
+## Pubblicazione e installazione
+1. Carica TUTTI i file, mantenendo la cartella `icons`, su un hosting statico HTTPS (es. Netlify, GitHub Pages).
+2. Apri l'indirizzo https://... (non il file locale): installazione, offline e biometria richiedono HTTPS.
+3. Android/Chrome/Edge: pulsante "Installa" nell'app (o menu del browser). iPhone/iPad: Safari -> Condividi -> Aggiungi alla schermata Home.
+4. La prima apertura richiede Internet: librerie e font vengono salvati e poi l'app funziona offline.
+5. Chi ha già installato la v3.0: alla prima apertura online il service worker si aggiorna; riapri l'app una seconda volta per vedere nome e icone nuovi (su alcuni telefoni l'icona sulla Home si aggiorna solo reinstallando l'app).
+
+## I dati NON si spostano da soli
+I dati stanno nel browser, separati per indirizzo. I dati esistenti restano accessibili (il nome interno del database non è cambiato).
+Per trasferirli su un altro indirizzo/dispositivo: "Backup cifrato" (.enc) nella vecchia versione, poi "Ripristina da backup" nella nuova.
+
+## Novità v3.1
+- Nuovo nome: Financial Dashboard. Nuove icone nell'app (intestazione, schermata di blocco, installazione, favicon).
+- Sblocco biometrico (WebAuthn): Strumenti -> Sblocco biometrico -> Attiva. La Master Password resta la chiave di recupero.
+  * Modalità PRF (dispositivi compatibili): la copia cifrata della password è protetta da una chiave derivata dal sensore.
+  * Modalità compatibile (altri dispositivi): la verifica biometrica funge da blocco d'accesso all'app; la chiave non è legata all'hardware.
+  * Si disattiva da sola se la password risulta cambiata; dopo "Cambia password" viene chiesta una nuova verifica per aggiornarla.
+- Cambio password: aggiunti campo di conferma, minimo 8 caratteri e controllo "diversa dalla precedente" (prima un refuso poteva rendere i dati irrecuperabili).
+- File esportati rinominati (Financial_Dashboard_Backup_*.enc, Financial_Dashboard_Report_*.xlsx).
+- Service worker v3.1 con cache aggiornata per le nuove icone.
+
+## Limiti noti
+- La biometria è legata a dispositivo e indirizzo: su un altro dispositivo, o nell'app installata su iPhone (archivio separato da Safari), va riattivata.
+- Il PDF della guida originale (v2.0) riporta ancora il vecchio nome.
+- Tailwind resta caricato da CDN (a runtime); le librerie esterne vengono salvate in cache dopo la prima apertura online.
