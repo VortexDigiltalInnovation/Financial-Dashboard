@@ -1,4 +1,4 @@
-# Financial Dashboard — PWA v3.1
+# Financial Dashboard — PWA v3.2
 
 ## Contenuto
 - `index.html`: applicazione (guida utente integrata)
@@ -16,6 +16,21 @@
 ## I dati NON si spostano da soli
 I dati stanno nel browser, separati per indirizzo. I dati esistenti restano accessibili (il nome interno del database non è cambiato).
 Per trasferirli su un altro indirizzo/dispositivo: "Backup cifrato" (.enc) nella vecchia versione, poi "Ripristina da backup" nella nuova.
+
+## Novità v3.2
+- Ripristino backup corretto: il pulsante "Ripristina backup" nel menu Strumenti (e l'icona in alto) non faceva nulla (funzione mancante). Il selettore file ora accetta qualsiasi file, così su Android il .enc non risulta più disattivato.
+- Backup su Google Drive: Strumenti -> "Salva su Drive" / "Ripristina". Il file è lo stesso backup cifrato (.enc): su Drive arriva solo testo cifrato, in una cartella privata dell'app (scope drive.appdata), con le ultime 10 copie. Il ripristino da Drive è disponibile anche nella schermata di creazione del caveau (nuovo dispositivo).
+- Biometria più robusta: se il telefono rifiuta le opzioni di attivazione, l'app riprova con opzioni più permissive; gli errori ora mostrano il motivo tecnico (es. "NotSupportedError: ...") invece di un messaggio generico; se la chiave biometrica non è più valida viene disattivata con un avviso chiaro.
+
+## Backup su Google Drive: configurazione (una tantum, gratuita)
+Serve un tuo "Client ID" Google, perché l'app non ha un server:
+1. Vai su https://console.cloud.google.com e crea un progetto (es. "Financial Dashboard").
+2. "API e servizi" -> "Libreria" -> cerca "Google Drive API" -> Abilita.
+3. "API e servizi" -> "Schermata consenso OAuth": tipo "Esterno", inserisci nome app ed e-mail; nell'elenco "Utenti di test" aggiungi il tuo account Google. Come ambito basta quello di Drive "drive.appdata" (non sensibile).
+4. "Credenziali" -> "Crea credenziali" -> "ID client OAuth" -> tipo "Applicazione web". In "Origini JavaScript autorizzate" metti l'indirizzo esatto dove pubblichi l'app, senza percorso (es. https://tuo-sito.netlify.app). Nessun URI di reindirizzamento.
+5. Copia il Client ID (finisce con .apps.googleusercontent.com) e incollalo in Strumenti -> "Imposta / cambia Client ID Google".
+6. Al primo "Salva su Drive" Google chiede il consenso (con progetto in modalità test può comparire l'avviso "app non verificata": Avanzate -> Continua).
+Note: se pubblichi l'app su un altro indirizzo, aggiungi anche quello alle origini autorizzate. Il Client ID è salvato solo sul dispositivo. Su iPhone, per il primo accesso a Google usa Safari (la finestra di accesso può essere bloccata nell'app installata).
 
 ## Novità v3.1
 - Nuovo nome: Financial Dashboard. Nuove icone nell'app (intestazione, schermata di blocco, installazione, favicon).
