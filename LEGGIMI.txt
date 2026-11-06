@@ -1,4 +1,4 @@
-# Financial Dashboard — PWA v3.2
+# Financial Dashboard — PWA v3.4
 
 ## Contenuto
 - `index.html`: applicazione (guida utente integrata)
@@ -16,6 +16,14 @@
 ## I dati NON si spostano da soli
 I dati stanno nel browser, separati per indirizzo. I dati esistenti restano accessibili (il nome interno del database non è cambiato).
 Per trasferirli su un altro indirizzo/dispositivo: "Backup cifrato" (.enc) nella vecchia versione, poi "Ripristina da backup" nella nuova.
+
+## Novità v3.4
+- Sensore biometrico pronto all'avvio: se lo sblocco biometrico è attivo, la richiesta di impronta/volto parte da sola all'apertura dell'app e quando ci si torna con il caveau bloccato, senza premere il pulsante. Se annulli (o il browser richiede un tocco, come su alcuni iPhone) resta il pulsante "Sblocca con biometria" e la password.
+- La richiesta automatica non parte se stai già scrivendo la password o hai un'altra finestra aperta, e non si ripete a raffica.
+
+## Novità v3.3
+- Numero di versione (v3.3) mostrato accanto al logo, nell'intestazione e nella schermata di blocco.
+- Service worker v3.3: cache rinnovata, riapri l'app due volte dopo l'aggiornamento per vederlo.
 
 ## Novità v3.2
 - Ripristino backup corretto: il pulsante "Ripristina backup" nel menu Strumenti (e l'icona in alto) non faceva nulla (funzione mancante). Il selettore file ora accetta qualsiasi file, così su Android il .enc non risulta più disattivato.
