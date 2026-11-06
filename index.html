@@ -83,50 +83,49 @@
                 </div>
             </div>
 
-            <!-- Top Actions -->
-            <div class="flex items-center gap-1.5 shrink-0 overflow-x-auto no-scrollbar max-w-full py-1">
-                <button onclick="triggerCsvImport()" title="Importa CSV Banca (Intesa, UniCredit, Mediolanum, Fideuram, Directa)" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-bold text-xs flex items-center gap-1 shrink-0">
+            <!-- Top Actions: su smartphone barra a 4 pulsanti grandi con etichetta; su schermi larghi riga di icone -->
+            <div class="grid grid-cols-4 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-1.5 sm:shrink-0 sm:overflow-x-auto no-scrollbar sm:max-w-full py-1">
+                <button onclick="triggerCsvImport()" title="Importa CSV Banca (Intesa, UniCredit, Mediolanum, Fideuram, Directa)" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400">
                     <i class="fa-solid fa-file-csv text-sm"></i> <span class="hidden sm:inline">Importa CSV Banca</span>
                 </button>
                 <input type="file" id="importCsvInput" accept=".csv,.txt" class="hidden" onchange="handleCsvStatementImport(event)">
 
-                <button onclick="triggerImportQuotes()" title="Importa Quotazioni JSON Locale" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2 rounded-xl bg-violet-500/10 hover:bg-violet-500/20 text-violet-600 dark:text-violet-400 font-bold text-xs flex items-center gap-1 shrink-0">
+                <button onclick="triggerImportQuotes()" title="Importa Quotazioni JSON Locale" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 bg-violet-500/10 hover:bg-violet-500/20 text-violet-600 dark:text-violet-400">
                     <i class="fa-solid fa-file-import text-sm"></i> <span class="hidden sm:inline">Quote JSON</span>
                 </button>
                 <input type="file" id="importQuotesInput" accept=".json" class="hidden" onchange="handleQuotesImport(event)">
 
-                <button onclick="exportExcelReport()" title="Excel" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold text-xs flex items-center gap-1 shrink-0">
+                <button onclick="exportExcelReport()" title="Excel" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
                     <i class="fa-solid fa-file-excel text-sm"></i> <span class="hidden sm:inline">Excel</span>
                 </button>
-                <button onclick="exportPdfReport()" title="PDF" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold text-xs flex items-center gap-1 shrink-0">
+                <button onclick="exportPdfReport()" title="PDF" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400">
                     <i class="fa-solid fa-file-pdf text-sm"></i> <span class="hidden sm:inline">PDF</span>
                 </button>
-                <button onclick="exportData()" title="Backup Cifrato" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-bold text-xs shrink-0">
-                    <i class="fa-solid fa-download"></i>
+                <button onclick="exportData()" title="Backup cifrato (scarica file .enc)" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-download"></i> <span class="hidden xl:inline">Backup</span>
                 </button>
-                <button onclick="triggerImport()" title="Ripristina Backup" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-bold text-xs shrink-0">
-                    <i class="fa-solid fa-upload"></i>
+                <button onclick="triggerImport()" title="Ripristina backup da file" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-upload"></i> <span class="hidden xl:inline">Ripristina</span>
                 </button>
                 <input type="file" id="importFileInput" class="hidden" onchange="handleFileImport(event)">
 
-                <button id="installBtn" onclick="installApp()" title="Installa l'app" class="hidden min-h-[40px] min-w-[40px] justify-center p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold text-xs items-center gap-1 shrink-0">
-                    <i class="fa-solid fa-circle-down text-sm"></i> <span class="hidden sm:inline">Installa</span>
+                <button id="installBtn" onclick="installApp()" title="Installa l'app" class="hidden col-span-4 sm:col-auto min-h-[48px] sm:min-h-[40px] justify-center px-3 py-2 rounded-2xl sm:rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-extrabold text-xs items-center gap-1.5 shrink-0">
+                    <i class="fa-solid fa-circle-down text-base sm:text-sm"></i> <span>Installa l'app</span>
                 </button>
-                <button onclick="openGuide()" title="Guida utente" aria-label="Guida utente" class="min-h-[40px] min-w-[40px] justify-center p-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-bold text-xs flex items-center gap-1 shrink-0">
-                    <i class="fa-solid fa-circle-question text-sm"></i> <span class="hidden sm:inline">Guida</span>
+                <button onclick="openGuide()" title="Guida utente" aria-label="Guida utente" class="flex flex-col sm:flex-row items-center justify-center gap-1 min-h-[56px] sm:min-h-[40px] sm:min-w-[40px] px-1 sm:p-2.5 rounded-2xl sm:rounded-xl text-[11px] sm:text-xs font-extrabold shrink-0 active:scale-95 transition-transform bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400">
+                    <i class="fa-solid fa-circle-question text-xl sm:text-sm"></i> <span class="leading-none">Guida</span>
                 </button>
-                <button onclick="openToolsSheet()" title="Strumenti" aria-label="Strumenti" class="min-h-[40px] min-w-[40px] justify-center p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-bold text-xs flex items-center shrink-0">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                <button onclick="openToolsSheet()" title="Strumenti: backup, Drive, biometria" aria-label="Strumenti" class="flex flex-col sm:flex-row items-center justify-center gap-1 min-h-[56px] sm:min-h-[40px] sm:min-w-[40px] px-1 sm:p-2.5 rounded-2xl sm:rounded-xl text-[11px] sm:text-xs font-extrabold shrink-0 active:scale-95 transition-transform bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-ellipsis-vertical text-xl sm:text-sm"></i> <span class="leading-none sm:hidden lg:inline">Strumenti</span>
                 </button>
-                <button onclick="openChangePasswordModal()" title="Cambia Password" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold text-xs shrink-0">
-                    <i class="fa-solid fa-key"></i>
+                <button onclick="openChangePasswordModal()" title="Cambia password" class="min-h-[40px] min-w-[40px] justify-center max-sm:hidden p-2.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400">
+                    <i class="fa-solid fa-key"></i> <span class="hidden xl:inline">Password</span>
                 </button>
-                <button onclick="lockVaultManual()" title="Blocca" aria-label="Blocca il caveau" class="min-h-[40px] min-w-[40px] justify-center p-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold text-xs shrink-0">
-                    <i class="fa-solid fa-lock"></i>
+                <button onclick="lockVaultManual()" title="Blocca il caveau" aria-label="Blocca il caveau" class="flex flex-col sm:flex-row items-center justify-center gap-1 min-h-[56px] sm:min-h-[40px] sm:min-w-[40px] px-1 sm:p-2.5 rounded-2xl sm:rounded-xl text-[11px] sm:text-xs font-extrabold shrink-0 active:scale-95 transition-transform bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400">
+                    <i class="fa-solid fa-lock text-xl sm:text-sm"></i> <span class="leading-none sm:hidden lg:inline">Blocca</span>
                 </button>
-                <button onclick="toggleTheme()" title="Tema" aria-label="Cambia tema" class="min-h-[40px] min-w-[40px] justify-center p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-bold text-xs shrink-0">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+                <button onclick="toggleTheme()" title="Cambia tema chiaro/scuro" aria-label="Cambia tema" class="flex flex-col sm:flex-row items-center justify-center gap-1 min-h-[56px] sm:min-h-[40px] sm:min-w-[40px] px-1 sm:p-2.5 rounded-2xl sm:rounded-xl text-[11px] sm:text-xs font-extrabold shrink-0 active:scale-95 transition-transform bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300">
+                    <span class="text-xl sm:text-sm leading-none"><i class="fa-solid fa-moon dark:hidden"></i><i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i></span> <span class="leading-none sm:hidden lg:inline">Tema</span>
                 </button>
             </div>
         </div>
@@ -1460,7 +1459,7 @@
                         <ul class="list-disc pl-5 space-y-1">
                             <li><b>Backup cifrato (.enc):</b> <i>Strumenti → Backup cifrato</i> (o icona <i class="fa-solid fa-download"></i>). Su smartphone si apre il pannello di condivisione per salvare il file in File / Drive. Fallo con regolarità: l'app ti ricorda se sono passati più di 30 giorni.</li>
                             <li><b>Ripristino:</b> <i>Ripristina backup</i> (icona <i class="fa-solid fa-upload"></i>). Se il backup è stato creato con un'altra password, l'app te la chiede. I dati attuali vengono sostituiti.</li>
-                            <li><b>Google Drive:</b> <i>Strumenti → Salva su Drive</i> carica il backup già cifrato in una cartella privata dell'app (le ultime 10 copie; nessun altro file del tuo Drive è visibile all'app). <i>Ripristina</i> mostra l'elenco e riparte dalla normale procedura con password. Alla prima volta serve il tuo Client ID Google: vedi LEGGIMI.txt, sezione «Backup su Google Drive».</li>
+                            <li><b>Google Drive:</b> <i>Strumenti → Salva su Drive</i> carica il backup già cifrato in un file visibile nel tuo Drive, cartella <i>Financial Dashboard Backup</i> (puoi rinominarlo, spostarlo o eliminarlo da Drive; non modificarne il contenuto, perché è cifrato; l'app tiene le ultime 10 copie e vede solo i file che ha creato). <i>Ripristina</i> mostra l'elenco e riparte dalla normale procedura con password. Alla prima volta serve il tuo Client ID Google: vedi LEGGIMI.txt, sezione «Backup su Google Drive».</li>
                             <li><b>Nuovo dispositivo:</b> al primo avvio, nella schermata di creazione del caveau, tocca <i>Ripristina da backup</i>, scegli il file .enc e inserisci la sua password.</li>
                             <li><b>Report Excel:</b> cartella di lavoro con fogli per conti, asset, BTP, Poste, PAC, flussi, spese e storico.</li>
                             <li><b>Report PDF:</b> istantanea della scheda aperta, su più pagine.</li>
@@ -1544,6 +1543,7 @@
                     <button id="driveRestoreBtn" type="button" onclick="toolsDo(fdDrive.restore)" class="px-3 py-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-extrabold disabled:opacity-50"><i class="fa-solid fa-cloud-arrow-down mr-1"></i> Ripristina</button>
                 </div>
                 <button type="button" onclick="fdDrive.setClientId()" class="mt-2 text-[10px] font-extrabold text-blue-600 dark:text-blue-400"><i class="fa-solid fa-key mr-1"></i>Imposta / cambia Client ID Google</button>
+                <a id="driveOpenLink" href="#" target="_blank" rel="noopener" class="hidden mt-2 text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400"><i class="fa-brands fa-google-drive mr-1"></i>Apri la cartella dei backup su Drive</a>
             </div>
             <p id="backupInfoLine" class="mt-3 text-[10px] text-slate-400 text-center font-medium"></p>
         </div>
@@ -4447,11 +4447,13 @@ window.fdBio = (function () {
     <script>
 /* ===== Financial Dashboard v3.2 – backup su Google Drive =====
    Il backup è lo stesso file cifrato (.enc) del backup locale: su Drive arriva solo testo cifrato.
-   Scope drive.appdata = cartella privata dell'app, invisibile nel resto del Drive. */
+   Il file è visibile nel tuo Drive, cartella "Financial Dashboard Backup" (scope drive.file: l'app vede solo i file che ha creato).
+   drive.appdata resta richiesto solo per leggere i vecchi backup salvati nella cartella nascosta. */
 window.fdDrive = (function () {
     'use strict';
     const $ = id => document.getElementById(id);
-    const SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
+    const SCOPE = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appdata';
+    const FOLDER = 'Financial Dashboard Backup';
     const KEEP = 10;
     const LS = {
         get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -4481,7 +4483,7 @@ window.fdDrive = (function () {
         const t = v.trim();
         if (!t) { LS.del('fd_gdrive_client_id'); token = null; refreshUI(); return false; }
         if (!/\.apps\.googleusercontent\.com$/.test(t)) { alert('Il Client ID non sembra valido: deve terminare con .apps.googleusercontent.com'); return false; }
-        LS.set('fd_gdrive_client_id', t); LS.del('fd_gdrive_consented'); token = null; refreshUI();
+        LS.set('fd_gdrive_client_id', t); LS.del('fd_gdrive_consented2'); token = null; refreshUI();
         return true;
     }
 
@@ -4496,12 +4498,12 @@ window.fdDrive = (function () {
                     callback: r => {
                         if (r && r.access_token) {
                             token = r.access_token; tokenExp = Date.now() + (r.expires_in || 3600) * 1000;
-                            LS.set('fd_gdrive_consented', '1'); resolve(token);
+                            LS.set('fd_gdrive_consented2', '1'); resolve(token);
                         } else reject(new Error((r && (r.error_description || r.error)) || 'auth'));
                     },
                     error_callback: e => reject(new Error((e && e.type) || 'popup'))
                 });
-                tc.requestAccessToken({ prompt: LS.get('fd_gdrive_consented') ? '' : 'consent' });
+                tc.requestAccessToken({ prompt: LS.get('fd_gdrive_consented2') ? '' : 'consent' });
             } catch (e) { reject(e); }
         });
     }
@@ -4519,8 +4521,28 @@ window.fdDrive = (function () {
     }
 
     async function list() {
-        const u = 'https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&orderBy=createdTime%20desc&pageSize=50&fields=files(id,name,createdTime,size)';
-        return ((await (await api(u)).json()).files) || [];
+        const fields = encodeURIComponent('files(id,name,createdTime,modifiedTime,size)');
+        const base = 'https://www.googleapis.com/drive/v3/files?pageSize=50&fields=' + fields;
+        const q = encodeURIComponent("trashed=false and mimeType!='application/vnd.google-apps.folder'");
+        const vis = await (await api(base + '&q=' + q + '&orderBy=modifiedTime%20desc')).json();
+        let hid = { files: [] };
+        try { hid = await (await api(base + '&spaces=appDataFolder&orderBy=createdTime%20desc')).json(); } catch (e) {}
+        const out = (vis.files || []).map(f => Object.assign(f, { hidden: false }))
+            .concat((hid.files || []).map(f => Object.assign(f, { hidden: true })));
+        const t = f => Date.parse(f.modifiedTime || f.createdTime) || 0;
+        return out.sort((x, y) => t(y) - t(x));
+    }
+
+    async function ensureFolder() {
+        const q = encodeURIComponent("name='" + FOLDER + "' and mimeType='application/vnd.google-apps.folder' and trashed=false");
+        const r = await (await api('https://www.googleapis.com/drive/v3/files?pageSize=1&fields=files(id)&q=' + q)).json();
+        if (r.files && r.files.length) { LS.set('fd_gdrive_folder', r.files[0].id); return r.files[0].id; }
+        const c = await (await api('https://www.googleapis.com/drive/v3/files?fields=id', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: FOLDER, mimeType: 'application/vnd.google-apps.folder' })
+        })).json();
+        LS.set('fd_gdrive_folder', c.id);
+        return c.id;
     }
 
     function fail(e) {
@@ -4540,9 +4562,11 @@ window.fdDrive = (function () {
     function refreshUI() {
         const el = $('driveStatusLine'); if (!el) return;
         const last = LS.get('fd_last_drive_backup');
-        let txt = clientId() ? 'Collegato con il tuo Client ID.' : 'Serve il tuo Client ID Google (una tantum).';
+        let txt = clientId() ? 'Salva un file cifrato (.enc) visibile nel tuo Drive, cartella "' + FOLDER + '".' : 'Serve il tuo Client ID Google (una tantum).';
         if (last) { const d = Date.parse(last); if (isFinite(d)) txt += ' Ultimo backup su Drive: ' + new Date(d).toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' }) + '.'; }
         el.textContent = txt;
+        const lk = $('driveOpenLink'), fid = LS.get('fd_gdrive_folder');
+        if (lk) { if (fid) { lk.href = 'https://drive.google.com/drive/folders/' + fid; lk.classList.remove('hidden'); } else lk.classList.add('hidden'); }
     }
 
     async function backup() {
@@ -4550,19 +4574,23 @@ window.fdDrive = (function () {
         if (typeof activePassword === 'undefined' || !activePassword) { toast('Sblocca prima il caveau'); return; }
         busy = true; setBusy(true);
         try {
+            const folderId = await ensureFolder();
             const enc = await encryptData(db, activePassword);
             const stamp = new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
-            const meta = { name: 'Financial_Dashboard_Backup_' + stamp + '.enc', parents: ['appDataFolder'], mimeType: 'application/octet-stream' };
+            const meta = { name: 'Financial_Dashboard_Backup_' + stamp + '.enc', parents: [folderId], mimeType: 'application/octet-stream' };
             const bd = 'fdb' + Math.random().toString(36).slice(2);
             const body = '--' + bd + '\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n' + JSON.stringify(meta) +
                 '\r\n--' + bd + '\r\nContent-Type: application/octet-stream\r\n\r\n' + JSON.stringify(enc) + '\r\n--' + bd + '--';
-            await api('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',
+            await api('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name',
                 { method: 'POST', headers: { 'Content-Type': 'multipart/related; boundary=' + bd }, body });
             const now = new Date().toISOString();
             LS.set('fd_last_backup', now); LS.set('fd_last_drive_backup', now);
             if (window.updateBackupBanner) window.updateBackupBanner();
-            try { const files = await list(); for (const f of files.slice(KEEP)) await api('https://www.googleapis.com/drive/v3/files/' + f.id, { method: 'DELETE' }); } catch (e) {}
-            refreshUI(); toast('Backup salvato su Google Drive');
+            try {
+                const mine = (await list()).filter(f => !f.hidden && /^Financial_Dashboard_Backup_.*\.enc$/.test(f.name || '')).sort((x, y) => (y.name > x.name ? 1 : -1));
+                for (const f of mine.slice(KEEP)) await api('https://www.googleapis.com/drive/v3/files/' + f.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ trashed: true }) });
+            } catch (e) {}
+            refreshUI(); toast('Backup salvato in Drive › ' + FOLDER, 5000);
         } catch (e) { fail(e); }
         finally { busy = false; setBusy(false); }
     }
@@ -4581,9 +4609,11 @@ window.fdDrive = (function () {
             files.forEach((f, i) => {
                 const b = document.createElement('button'); b.type = 'button';
                 b.className = 'w-full text-left p-3 mb-2 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 text-xs font-bold';
-                const when = new Date(f.createdTime).toLocaleString('it-IT', { dateStyle: 'medium', timeStyle: 'short' });
+                const when = new Date(f.modifiedTime || f.createdTime).toLocaleString('it-IT', { dateStyle: 'medium', timeStyle: 'short' });
                 const kb = f.size ? ' · ' + Math.max(1, Math.round(Number(f.size) / 1024)) + ' KB' : '';
-                b.textContent = when + kb + (i === 0 ? ' · più recente' : '');
+                b.textContent = when + kb + (i === 0 ? ' · più recente' : '') + (f.hidden ? ' · cartella nascosta (vecchio)' : '');
+                const nm = document.createElement('div'); nm.className = 'text-[10px] font-medium text-slate-400 mt-0.5 break-all'; nm.textContent = f.name || '';
+                b.appendChild(nm);
                 b.onclick = () => done(f);
                 box.appendChild(b);
             });
