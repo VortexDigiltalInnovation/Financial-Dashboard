@@ -1,5 +1,5 @@
-/* Financial Dashboard – Service Worker v3.4 */
-const VERSION = 'v3-4';
+/* Financial Dashboard – Service Worker v3.5 */
+const VERSION = 'v3-6';
 const SHELL_CACHE = 'findash-shell-' + VERSION;
 const RUNTIME_CACHE = 'findash-runtime-' + VERSION;
 const RUNTIME_MAX_ENTRIES = 80;
@@ -10,6 +10,7 @@ const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './tailwind.css?v=3.5',
   './Guida_Utente_FinDashboard_Ultimate_Pro.pdf',
   './icons/favicon-64.png',
   './icons/icon-72.png',
@@ -27,7 +28,6 @@ const APP_SHELL = [
 
 // Librerie esterne (versioni fisse): precache "best effort", senza bloccare l'installazione.
 const CDN_PRECACHE = [
-  'https://cdn.tailwindcss.com/3.4.17',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2',
@@ -41,7 +41,6 @@ const CDN_PRECACHE = [
 
 // Solo questi host vengono messi in cache; tutto il resto passa direttamente dalla rete.
 const CACHEABLE_HOSTS = [
-  'cdn.tailwindcss.com',
   'cdnjs.cloudflare.com',
   'cdn.jsdelivr.net',
   'fonts.googleapis.com',
@@ -57,7 +56,7 @@ self.addEventListener('install', event => {
       const res = await fetch(new Request(url, { mode: 'no-cors', credentials: 'omit' }));
       if (res && (res.ok || res.type === 'opaque')) await runtime.put(url, res);
     }));
-    await self.skipWaiting();
+    // Nessun skipWaiting automatico: l'app mostra l'avviso "Nuova versione disponibile" e invia SKIP_WAITING su richiesta.
   })());
 });
 

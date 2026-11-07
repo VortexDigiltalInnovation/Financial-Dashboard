@@ -17,20 +17,8 @@
     <script>(function(){try{var t=localStorage.getItem('fd_theme');if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';if(t==='dark')document.documentElement.classList.add('dark');var m=document.getElementById('themeColorMeta');if(m)m.setAttribute('content',t==='dark'?'#020617':'#f1f5f9');}catch(e){}})();</script>
     <title>Financial Dashboard</title>
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { 50: '#f0f6ff', 100: '#e0edff', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Tailwind CSS (compilato in locale: funziona anche offline) -->
+    <link rel="stylesheet" href="./tailwind.css?v=3.5">
 
     <!-- Font Awesome Pro icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -82,7 +70,7 @@
                 <div>
                     <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
                         <span class="whitespace-nowrap">Financial Dashboard</span>
-                        <span class="app-version-badge" title="Versione dell'app" aria-label="Versione dell'app">v3.4</span>
+                        <span class="app-version-badge" title="Versione dell'app" aria-label="Versione dell'app">v3.5</span>
                     </h1>
                     <p class="hidden sm:block text-[11px] text-slate-500 dark:text-slate-400 font-medium">Bank-Grade Wealth Management (IndexedDB + AES-GCM)</p>
                 </div>
@@ -169,7 +157,10 @@
     <div id="backupBanner" class="hidden max-w-7xl mx-auto w-full px-4 sm:px-6 pt-3">
         <div class="p-3.5 rounded-3xl bg-amber-500/10 border border-amber-500/20 text-amber-900 dark:text-amber-200 flex items-center justify-between gap-3 text-xs font-bold">
             <span><i class="fa-solid fa-triangle-exclamation mr-1.5"></i><span id="backupBannerText"></span></span>
-            <button onclick="exportData()" class="px-3 py-2 rounded-xl bg-amber-500 text-white font-extrabold text-[11px] shrink-0 min-h-[36px]">Backup ora</button>
+            <span class="flex gap-2 shrink-0">
+                <button id="backupBannerDrive" onclick="fdDrive.backup()" class="hidden px-3 py-2 rounded-xl bg-blue-600 text-white font-extrabold text-[11px] min-h-[36px]">Su Drive</button>
+                <button onclick="exportData()" class="px-3 py-2 rounded-xl bg-amber-500 text-white font-extrabold text-[11px] min-h-[36px]">Backup ora</button>
+            </span>
         </div>
     </div>
 
@@ -952,7 +943,7 @@
         <div class="relative glass-card rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-white/20 dark:border-slate-700/60 text-center my-auto">
             <img src="./icons/icon-128.png" alt="" width="72" height="72" class="w-[72px] h-[72px] mx-auto mb-4 rounded-[1.4rem] shadow-xl shadow-blue-500/30">
             <h2 id="masterTitle" class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-1">Financial Dashboard</h2>
-            <div class="mb-3"><span class="app-version-badge" aria-label="Versione dell'app">v3.4</span></div>
+            <div class="mb-3"><span class="app-version-badge" aria-label="Versione dell'app">v3.5</span></div>
             <p id="masterHint" class="text-[11px] text-slate-500 dark:text-slate-400 mb-5 font-medium">Inserisci la tua Master Password cifrata AES-GCM (PBKDF2 600.000 iterazioni).</p>
 
             <form onsubmit="unlockVault(event)" class="space-y-3.5" autocomplete="on">
@@ -1380,7 +1371,7 @@
             <div class="shrink-0 bg-gradient-to-r from-slate-900 via-blue-900 to-blue-600 text-white px-5 pb-4 flex items-start justify-between gap-3" style="padding-top:calc(1rem + env(safe-area-inset-top))">
                 <div>
                     <h2 id="guideTitle" class="text-lg font-extrabold tracking-tight">Guida Utente</h2>
-                    <p class="text-[11px] text-blue-100 font-medium">Financial Dashboard · Guida ufficiale v3.4</p>
+                    <p class="text-[11px] text-blue-100 font-medium">Financial Dashboard · Guida ufficiale v3.5</p>
                 </div>
                 <button onclick="closeGuide()" aria-label="Chiudi guida" class="shrink-0 w-10 h-10 rounded-2xl bg-white/15 hover:bg-white/25 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -1466,6 +1457,8 @@
                             <li><b>Backup cifrato (.enc):</b> <i>Strumenti → Backup cifrato</i> (o icona <i class="fa-solid fa-download"></i>). Su smartphone si apre il pannello di condivisione per salvare il file in File / Drive. Fallo con regolarità: l'app ti ricorda se sono passati più di 30 giorni.</li>
                             <li><b>Ripristino:</b> <i>Ripristina backup</i> (icona <i class="fa-solid fa-upload"></i>). Se il backup è stato creato con un'altra password, l'app te la chiede. I dati attuali vengono sostituiti.</li>
                             <li><b>Google Drive:</b> <i>Strumenti → Salva su Drive</i> carica il backup già cifrato in un file visibile nel tuo Drive, cartella <i>Financial Dashboard Backup</i> (puoi rinominarlo, spostarlo o eliminarlo da Drive; non modificarne il contenuto, perché è cifrato; l'app tiene le ultime 10 copie e vede solo i file che ha creato). <i>Ripristina</i> mostra l'elenco e riparte dalla normale procedura con password. Alla prima volta serve il tuo Client ID Google: vedi LEGGIMI.txt, sezione «Backup su Google Drive».</li>
+                            <li><b>Promemoria e backup automatico:</b> in <i>Strumenti</i> scegli dopo quanti giorni (7, 14 o 30) mostrare l'avviso di backup. Opzionalmente l'app prova a salvare da sola su Drive quando il promemoria scatta; se Google chiede un'azione manuale ti avvisa.</li>
+                            <li><b>Aggiornamenti:</b> quando è pronta una nuova versione compare il riquadro <i>Nuova versione disponibile</i>: tocca <b>Aggiorna</b> per applicarla.</li>
                             <li><b>Nuovo dispositivo:</b> al primo avvio, nella schermata di creazione del caveau, tocca <i>Ripristina da backup</i>, scegli il file .enc e inserisci la sua password.</li>
                             <li><b>Report Excel:</b> cartella di lavoro con fogli per conti, asset, BTP, Poste, PAC, flussi, spese e storico.</li>
                             <li><b>Report PDF:</b> istantanea della scheda aperta, su più pagine.</li>
@@ -1499,7 +1492,7 @@
                     <a href="./Guida_Utente_FinDashboard_Ultimate_Pro.pdf" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 font-extrabold text-xs flex items-center gap-2"><i class="fa-solid fa-file-pdf"></i> Apri la guida PDF originale (v2.0, con il vecchio nome)</a>
                     <button onclick="closeGuide()" class="px-4 py-2.5 rounded-2xl bg-blue-600 text-white font-extrabold text-xs">Ho capito</button>
                 </div>
-                <p class="text-[10px] text-slate-400 text-center pt-1">Financial Dashboard · v3.4</p>
+                <p class="text-[10px] text-slate-400 text-center pt-1">Financial Dashboard · v3.5</p>
             </div>
         </div>
     </div>
@@ -1534,6 +1527,21 @@
                     <option value="30">30 minuti</option>
                 </select>
             </div>
+            <div class="mt-3 p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 space-y-2.5">
+                <div class="flex items-center justify-between gap-3">
+                    <label for="backupDaysSelect" class="text-xs font-extrabold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-clock-rotate-left mr-1.5"></i> Promemoria backup</label>
+                    <select id="backupDaysSelect" onchange="setBackupDays(this.value)" class="p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold">
+                        <option value="0">Disattivato</option>
+                        <option value="7">Dopo 7 giorni</option>
+                        <option value="14">Dopo 14 giorni</option>
+                        <option value="30">Dopo 30 giorni</option>
+                    </select>
+                </div>
+                <label class="flex items-center justify-between gap-3 text-xs font-extrabold text-slate-600 dark:text-slate-300">
+                    <span><i class="fa-brands fa-google-drive mr-1.5"></i> Backup automatico su Drive<span class="block text-[10px] text-slate-400 font-medium mt-0.5">Quando il promemoria scatta, prova a salvare da solo su Drive.</span></span>
+                    <input id="autoDriveCheck" type="checkbox" onchange="setAutoDrive(this.checked)" class="w-5 h-5 shrink-0">
+                </label>
+            </div>
             <div class="mt-3 p-3 rounded-2xl bg-slate-100 dark:bg-slate-900 flex items-center justify-between gap-3">
                 <div class="min-w-0">
                     <div class="text-xs font-extrabold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-fingerprint mr-1.5"></i> Sblocco biometrico</div>
@@ -1550,6 +1558,15 @@
                 </div>
                 <button type="button" onclick="fdDrive.setClientId()" class="mt-2 text-[10px] font-extrabold text-blue-600 dark:text-blue-400"><i class="fa-solid fa-key mr-1"></i>Imposta / cambia Client ID Google</button>
                 <a id="driveOpenLink" href="#" target="_blank" rel="noopener" class="hidden mt-2 text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400"><i class="fa-brands fa-google-drive mr-1"></i>Apri la cartella dei backup su Drive</a>
+            </div>
+            <div class="mt-3 p-3 rounded-2xl bg-slate-100 dark:bg-slate-900">
+                <div class="text-xs font-extrabold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-folder-open mr-1.5"></i> Cartella dell'app</div>
+                <div id="folderStatusLine" class="text-[10px] text-slate-400 font-medium mt-0.5 leading-snug"></div>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <button id="folderLinkBtn" type="button" onclick="fdFolder.link()" class="px-3 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-extrabold disabled:opacity-50"><i class="fa-solid fa-folder-plus mr-1"></i> Crea cartella</button>
+                    <button type="button" onclick="toolsDo(fdFolder.restore)" class="px-3 py-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-extrabold"><i class="fa-solid fa-rotate-left mr-1"></i> Ripristina</button>
+                </div>
+                <button id="folderUnlinkBtn" type="button" onclick="fdFolder.unlink()" class="hidden mt-2 text-[10px] font-extrabold text-rose-600 dark:text-rose-400"><i class="fa-solid fa-link-slash mr-1"></i>Scollega la cartella del dispositivo</button>
             </div>
             <p id="backupInfoLine" class="mt-3 text-[10px] text-slate-400 text-center font-medium"></p>
         </div>
@@ -1803,8 +1820,14 @@
         async function saveData() {
             if (!activePassword) return;
             recordMonthlySnapshot();
-            const enc = await encryptData(db, activePassword);
-            await idbSet(KEY_NAME, enc);
+            try {
+                const enc = await encryptData(db, activePassword);
+                await idbSet(KEY_NAME, enc);
+                try { if (window.fdFolder) window.fdFolder.onSave(enc); } catch (e2) { console.warn('Cartella app:', e2); }
+            } catch (err) {
+                console.error('Salvataggio non riuscito:', err);
+                alert('Salvataggio NON riuscito (' + ((err && err.name) || 'errore') + '). Spazio del dispositivo esaurito o archivio non disponibile. Non chiudere l\'app: fai subito un backup cifrato dal menu Strumenti.');
+            }
             renderAll();
         }
 
@@ -2044,6 +2067,9 @@
 
             if (!newName) return;
 
+            const dup = Object.keys(db.budgets || {}).find(c => c.toLowerCase() === newName.toLowerCase() && c !== origName);
+            if (dup) { alert('Esiste già una categoria chiamata "' + dup + '". Scegli un nome diverso.'); return; }
+
             if (origName && origName !== newName) {
                 delete db.budgets[origName];
                 db.expenses.forEach(ex => {
@@ -2057,10 +2083,21 @@
         }
 
         async function deleteCustomCategory(catName) {
-            if (confirm(`Eliminare la categoria "${catName}"? Le spese associate rimarranno senza categoria attiva.`)) {
+            const used = (db.expenses || []).filter(ex => ex.category === catName).length;
+            if (used === 0) {
+                if (!confirm(`Eliminare la categoria "${catName}"?`)) return;
                 delete db.budgets[catName];
                 await saveData();
+                return;
             }
+            const FALLBACK = 'Varie / Altro';
+            let target = catName === FALLBACK ? Object.keys(db.budgets).find(c => c !== catName) : FALLBACK;
+            if (!target) { alert('Non puoi eliminare l\'unica categoria: ci sono ' + used + ' spese associate. Creane prima un\'altra.'); return; }
+            if (!confirm(`La categoria "${catName}" ha ${used} spese registrate.\nSe la elimini, le spese verranno spostate in "${target}". Continuare?`)) return;
+            if (!(target in db.budgets)) db.budgets[target] = 0;
+            db.expenses.forEach(ex => { if (ex.category === catName) ex.category = target; });
+            delete db.budgets[catName];
+            await saveData();
         }
 
         function renderCustomCategoriesUI() {
@@ -2070,18 +2107,18 @@
             container.innerHTML = Object.keys(db.budgets).map(cat => `
                 <div class="p-3.5 rounded-2xl bg-slate-100/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
                     <div>
-                        <h4 class="font-extrabold text-xs text-slate-900 dark:text-white">${cat}</h4>
+                        <h4 class="font-extrabold text-xs text-slate-900 dark:text-white">${escapeHtml(cat)}</h4>
                         <span class="text-[10px] text-slate-400 font-mono">Budget: ${formatEur(db.budgets[cat])}/mese</span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <button onclick="openCategoryModal('${cat}')" class="w-7 h-7 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-pen text-xs"></i></button>
-                        <button onclick="deleteCustomCategory('${cat}')" class="w-7 h-7 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center"><i class="fa-solid fa-trash text-xs"></i></button>
+                        <button data-cat="${escapeHtml(cat)}" onclick="openCategoryModal(this.dataset.cat)" class="w-7 h-7 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-pen text-xs"></i></button>
+                        <button data-cat="${escapeHtml(cat)}" onclick="deleteCustomCategory(this.dataset.cat)" class="w-7 h-7 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center"><i class="fa-solid fa-trash text-xs"></i></button>
                     </div>
                 </div>
             `).join('');
 
             const select = document.getElementById('expCategory');
-            select.innerHTML = Object.keys(db.budgets).map(cat => `<option value="${cat}">${cat}</option>`).join('');
+            select.innerHTML = Object.keys(db.budgets).map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join('');
         }
 
         function openExpenseModal(idx = -1) {
@@ -2388,7 +2425,7 @@
                 return `
                     <div class="p-4 rounded-2xl bg-slate-100/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 space-y-2">
                         <div class="flex items-center justify-between text-xs">
-                            <span class="font-extrabold text-slate-900 dark:text-white">${cat}</span>
+                            <span class="font-extrabold text-slate-900 dark:text-white">${escapeHtml(cat)}</span>
                             <span class="font-mono font-bold ${isOver ? 'text-rose-600 dark:text-rose-400 font-black' : 'text-slate-600 dark:text-slate-300'}">
                                 ${formatEur(spent)} / ${formatEur(budgetLimit)}
                             </span>
@@ -2421,8 +2458,8 @@
             tbody.innerHTML = monthExpenses.map(({ ex, i }) => `
                 <tr class="hover:bg-slate-200/40 dark:hover:bg-slate-800/40 transition-colors">
                     <td class="p-3.5 font-mono text-slate-500">${ex.date}</td>
-                    <td class="p-3.5 font-extrabold text-slate-900 dark:text-white">${ex.desc}</td>
-                    <td class="p-3.5"><span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${ex.category}</span></td>
+                    <td class="p-3.5 font-extrabold text-slate-900 dark:text-white">${escapeHtml(ex.desc)}</td>
+                    <td class="p-3.5"><span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-slate-200/60 dark:bg-slate-800 text-slate-700 dark:text-slate-300">${escapeHtml(ex.category)}</span></td>
                     <td class="p-3.5 text-right font-mono font-extrabold text-rose-600 dark:text-rose-400">-${formatEur(ex.amount)}</td>
                     <td class="p-3.5 text-right">
                         <div class="flex items-center justify-end gap-2">
@@ -2436,8 +2473,8 @@
             mobileList.innerHTML = monthExpenses.map(({ ex, i }) => `
                 <div class="p-4 flex items-center justify-between gap-3">
                     <div>
-                        <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">${ex.desc}</h4>
-                        <span class="text-[10px] text-slate-400">${ex.date} • ${ex.category}</span>
+                        <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">${escapeHtml(ex.desc)}</h4>
+                        <span class="text-[10px] text-slate-400">${ex.date} • ${escapeHtml(ex.category)}</span>
                     </div>
                     <div class="text-right">
                         <p class="font-mono font-black text-sm text-rose-600">-${formatEur(ex.amount)}</p>
@@ -2730,10 +2767,10 @@
                     <tr class="hover:bg-slate-200/40 dark:hover:bg-slate-800/40 transition-colors">
                         <td class="p-4 font-extrabold text-slate-900 dark:text-white">
                             ${escapeHtml(a.name)}
-                            ${a.ticker ? `<span class="ml-1 px-1.5 py-0.5 rounded text-[9px] font-mono bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${a.ticker}</span>` : ''}
+                            ${a.ticker ? `<span class="ml-1 px-1.5 py-0.5 rounded text-[9px] font-mono bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${escapeHtml(a.ticker)}</span>` : ''}
                         </td>
                         <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">${escapeHtml(a.category)}</span></td>
-                        <td class="p-4 font-medium">${a.owner}</td>
+                        <td class="p-4 font-medium">${escapeHtml(a.owner)}</td>
                         <td class="p-4 font-mono text-xs">${priceDetailHtml}</td>
                         <td class="p-4 text-right">${plHtml}</td>
                         <td class="p-4 text-right font-mono font-extrabold text-slate-900 dark:text-white">${formatEur(a.value)}</td>
@@ -2751,10 +2788,10 @@
             mobileList.innerHTML = db.assets.map((a, i) => `
                 <div class="p-4 flex items-center justify-between gap-3">
                     <div class="space-y-1">
-                        <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">${escapeHtml(a.name)} ${a.ticker ? `[${a.ticker}]` : ''}</h4>
+                        <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">${escapeHtml(a.name)} ${a.ticker ? `[${escapeHtml(a.ticker)}]` : ''}</h4>
                         <div class="flex items-center gap-1.5 flex-wrap">
                             <span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-blue-500/10 text-blue-600 dark:text-blue-400">${escapeHtml(a.category)}</span>
-                            <span class="text-[10px] font-medium text-slate-400">${a.owner}</span>
+                            <span class="text-[10px] font-medium text-slate-400">${escapeHtml(a.owner)}</span>
                         </div>
                     </div>
                     <div class="text-right shrink-0">
@@ -2913,8 +2950,8 @@
             tbody.innerHTML = db.bankAccounts.map((ba, i) => `
                 <tr class="hover:bg-slate-200/40 dark:hover:bg-slate-800/40 transition-colors">
                     <td class="p-4 font-extrabold text-slate-900 dark:text-white">${escapeHtml(ba.name)}</td>
-                    <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">${ba.type}</span></td>
-                    <td class="p-4 font-medium">${ba.owner}</td>
+                    <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">${escapeHtml(ba.type)}</span></td>
+                    <td class="p-4 font-medium">${escapeHtml(ba.owner)}</td>
                     <td class="p-4 text-right font-mono font-extrabold text-blue-600 dark:text-blue-400">${formatEur(ba.balance)}</td>
                     <td class="p-4 text-right">
                         <div class="flex items-center justify-end gap-2">
@@ -2928,7 +2965,7 @@
                 <div class="p-4 flex items-center justify-between gap-3">
                     <div>
                         <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">${escapeHtml(ba.name)}</h4>
-                        <span class="text-[10px] text-slate-400">${ba.type} • ${ba.owner}</span>
+                        <span class="text-[10px] text-slate-400">${escapeHtml(ba.type)} • ${escapeHtml(ba.owner)}</span>
                     </div>
                     <div class="text-right">
                         <p class="font-mono font-black text-sm text-blue-600">${formatEur(ba.balance)}</p>
@@ -3096,7 +3133,7 @@
             container.innerHTML = db.pacItems.map((p, i) => `
                 <div class="p-4 rounded-2xl bg-slate-100/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
                     <div>
-                        <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">${p.name}</h4>
+                        <h4 class="font-extrabold text-sm text-slate-900 dark:text-white">${escapeHtml(p.name)}</h4>
                         <p class="text-xs text-slate-400 font-medium mt-0.5">Versamento: <span class="text-emerald-600 font-bold">${formatEur(p.monthly)}/mese</span></p>
                         <p class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1">Valore Attuale: ${formatEur(p.currentVal)}</p>
                     </div>
@@ -4171,6 +4208,8 @@ window.fdBio = (function () {
     window.openToolsSheet = function () {
         const s = $('toolsSheet'); if (!s) return;
         $('autoLockSelect').value = String(getAutoLockMinutes());
+        if ($('backupDaysSelect')) $('backupDaysSelect').value = String(getBackupDays());
+        if ($('autoDriveCheck')) $('autoDriveCheck').checked = LS.get('fd_auto_drive', '0') === '1';
         if (![...$('autoLockSelect').options].some(o => o.value === $('autoLockSelect').value)) $('autoLockSelect').value = '5';
         updateBackupInfoLine();
         if (window.fdBio) fdBio.refreshUI();
@@ -4277,19 +4316,37 @@ window.fdBio = (function () {
         const b = $('backupBanner'); if (!b) return;
         const unlocked = typeof activePassword !== 'undefined' && !!activePassword;
         const d = daysSinceBackup();
+        const lim = getBackupDays();
         let msg = '';
-        if (unlocked && hasAnyData()) {
+        if (unlocked && hasAnyData() && lim > 0) {
             if (d === null) msg = 'Non hai ancora fatto un backup cifrato dei tuoi dati.';
-            else if (d > 30) msg = `Ultimo backup ${d} giorni fa: è ora di farne uno nuovo.`;
+            else if (d >= lim) msg = `Ultimo backup ${d} giorni fa: è ora di farne uno nuovo.`;
         }
         $('backupBannerText').textContent = msg;
         b.classList.toggle('hidden', !msg);
+        const dr = $('backupBannerDrive'); if (dr) dr.classList.toggle('hidden', !((LS.get('fd_gdrive_client_id', '') || '').trim()));
+        if (msg) maybeAutoDriveBackup();
     };
+    function getBackupDays() {
+        const n = parseInt(LS.get('fd_backup_days', '14'), 10);
+        return isFinite(n) && n >= 0 ? n : 14;
+    }
+    window.setBackupDays = function (v) { const n = parseInt(v, 10); LS.set('fd_backup_days', String(isFinite(n) && n >= 0 ? n : 14)); updateBackupBanner(); };
+    window.setAutoDrive = function (on) { LS.set('fd_auto_drive', on ? '1' : '0'); if (on && !(LS.get('fd_gdrive_client_id', '') || '').trim()) { showToast('Imposta prima il Client ID Google (Strumenti → Drive)', 5000); } updateBackupBanner(); };
+    function maybeAutoDriveBackup() {
+        if (LS.get('fd_auto_drive', '0') !== '1') return;
+        if (!(LS.get('fd_gdrive_client_id', '') || '').trim() || !navigator.onLine) return;
+        const lastTry = Date.parse(LS.get('fd_auto_drive_try', '')) || 0;
+        if (Date.now() - lastTry < 6 * 3600 * 1000) return;
+        LS.set('fd_auto_drive_try', new Date().toISOString());
+        try { window.fdDrive && window.fdDrive.backup(true); } catch (e) { console.warn('Backup automatico:', e); }
+    }
     function updateBackupInfoLine() {
         const d = daysSinceBackup(); const el = $('backupInfoLine'); if (!el) return;
         el.textContent = d === null ? 'Nessun backup registrato su questo dispositivo.' : (d === 0 ? 'Ultimo backup: oggi.' : `Ultimo backup: ${d} giorni fa.`);
     }
     async function saveBlobFile(blob, filename, mime) {
+        try { if (window.fdFolder && await window.fdFolder.saveReport(blob, filename)) showToast('Salvato anche in Financial Dashboard › Report'); } catch (e) {}
         try {
             const file = new File([blob], filename, { type: mime || blob.type || 'application/octet-stream' });
             if (navigator.canShare && navigator.canShare({ files: [file] }) && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
@@ -4446,19 +4503,57 @@ window.fdBio = (function () {
     window.addEventListener('appinstalled', () => { deferredPrompt = null; updateInstallUI(); showToast('App installata'); });
     updateInstallUI();
 
-    // ---------- Service Worker ----------
+    // ---------- Gestione errori globale ----------
+    (function () {
+        let last = 0;
+        function report(msg) {
+            console.error('Errore app:', msg);
+            const now = Date.now(); if (now - last < 8000) return; last = now;
+            try { showToast('Si è verificato un errore imprevisto. Se i dati non si salvano, fai un backup e riapri l\'app.', 6000); } catch (e) {}
+        }
+        window.addEventListener('error', e => { if (e && e.message && !/ResizeObserver/.test(e.message)) report(e.message); });
+        window.addEventListener('unhandledrejection', e => {
+            const r = e && e.reason; const m = (r && (r.message || r.name)) || String(r || '');
+            if (/AbortError|NotAllowedError|popup|noclient|offline/i.test(m)) return;
+            report(m);
+        });
+    })();
+
+    // ---------- Service Worker + avviso di aggiornamento ----------
+    function showUpdateBanner(reg) {
+        if (document.getElementById('updateBanner')) return;
+        const b = document.createElement('div');
+        b.id = 'updateBanner';
+        b.setAttribute('role', 'alert');
+        b.className = 'fixed left-3 right-3 bottom-24 sm:bottom-6 sm:left-auto sm:right-6 sm:max-w-sm z-[200] p-3.5 rounded-2xl bg-blue-600 text-white shadow-xl flex items-center justify-between gap-3 text-xs font-bold';
+        b.innerHTML = '<span><i class="fa-solid fa-circle-arrow-up mr-1.5"></i>Nuova versione disponibile</span><span class="flex gap-2 shrink-0"><button type="button" id="updLater" class="px-2.5 py-2 rounded-xl bg-white/15 min-h-[36px]">Dopo</button><button type="button" id="updNow" class="px-3 py-2 rounded-xl bg-white text-blue-700 font-extrabold min-h-[36px]">Aggiorna</button></span>';
+        document.body.appendChild(b);
+        document.getElementById('updLater').onclick = () => b.remove();
+        document.getElementById('updNow').onclick = () => {
+            window.__fdUpdating = true;
+            const w = reg && reg.waiting;
+            if (w) w.postMessage({ type: 'SKIP_WAITING' }); else location.reload();
+        };
+    }
     if ('serviceWorker' in navigator && window.isSecureContext && /^https?:$/.test(location.protocol)) {
         const hadController = !!navigator.serviceWorker.controller;
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./service-worker.js', { scope: './', updateViaCache: 'none' })
                 .then(reg => {
+                    if (hadController && reg.waiting) showUpdateBanner(reg);
+                    reg.addEventListener('updatefound', () => {
+                        const nw = reg.installing; if (!nw) return;
+                        nw.addEventListener('statechange', () => {
+                            if (nw.state === 'installed' && navigator.serviceWorker.controller) showUpdateBanner(reg);
+                        });
+                    });
                     reg.update().catch(() => {});
                     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
                 })
                 .catch(err => console.warn('Service Worker non disponibile:', err));
         });
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-            if (hadController) showToast('Aggiornamento installato: riapri l\'app per usarlo', 6000);
+            if (window.__fdUpdating) { window.__fdUpdating = false; location.reload(); }
         });
     }
 
@@ -4594,9 +4689,10 @@ window.fdDrive = (function () {
         if (lk) { if (fid) { lk.href = 'https://drive.google.com/drive/folders/' + fid; lk.classList.remove('hidden'); } else lk.classList.add('hidden'); }
     }
 
-    async function backup() {
+    async function backup(silent) {
+        silent = silent === true;
         if (busy) return;
-        if (typeof activePassword === 'undefined' || !activePassword) { toast('Sblocca prima il caveau'); return; }
+        if (typeof activePassword === 'undefined' || !activePassword) { if (!silent) toast('Sblocca prima il caveau'); return; }
         busy = true; setBusy(true);
         try {
             const folderId = await ensureFolder();
@@ -4616,7 +4712,10 @@ window.fdDrive = (function () {
                 for (const f of mine.slice(KEEP)) await api('https://www.googleapis.com/drive/v3/files/' + f.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ trashed: true }) });
             } catch (e) {}
             refreshUI(); toast('Backup salvato in Drive › ' + FOLDER, 5000);
-        } catch (e) { fail(e); }
+        } catch (e) {
+            if (silent) { console.warn('Drive (automatico):', e); toast('Backup automatico su Drive non riuscito: usa Strumenti → Salva su Drive', 6000); }
+            else fail(e);
+        }
         finally { busy = false; setBusy(false); }
     }
 
@@ -4670,6 +4769,173 @@ window.fdDrive = (function () {
     return { backup, restore, setClientId, refreshUI };
 })();
 
+
+// ===== Cartella dell'app: archivio interno + cartella sul dispositivo =====
+window.fdFolder = (function () {
+    const FOLDER = 'Financial Dashboard';
+    const MAIN = 'Financial_Dashboard_Dati.enc';
+    const KEEP = 15;
+    const HKEY = 'fd_folder_handle';
+    const $ = id => document.getElementById(id);
+    const toast = (m, ms) => (window.showToast ? window.showToast(m, ms) : console.log(m));
+    const pickerOk = typeof window.showDirectoryPicker === 'function';
+    const opfsOk = !!(navigator.storage && navigator.storage.getDirectory);
+    let dev = null, devState = 'none', pending = null, timer = null, lastInternal = null, lastDevice = null;
+
+    async function ensureSub(root) {
+        const app = await root.getDirectoryHandle(FOLDER, { create: true });
+        const bk = await app.getDirectoryHandle('Backup', { create: true });
+        const rp = await app.getDirectoryHandle('Report', { create: true });
+        return { app, bk, rp };
+    }
+    async function writeFile(dir, name, data) {
+        const fh = await dir.getFileHandle(name, { create: true });
+        const w = await fh.createWritable();
+        await w.write(data); await w.close();
+    }
+    async function prune(dir) {
+        const names = [];
+        for await (const [n, h] of dir.entries()) if (h.kind === 'file' && /\.enc$/.test(n)) names.push(n);
+        names.sort().reverse();
+        for (const n of names.slice(KEEP)) { try { await dir.removeEntry(n); } catch (e) {} }
+    }
+    async function writeAll(root, text) {
+        const { app, bk } = await ensureSub(root);
+        await writeFile(app, MAIN, text);
+        const day = new Date().toISOString().slice(0, 10);
+        await writeFile(bk, 'Financial_Dashboard_Backup_' + day + '.enc', text);
+        await prune(bk);
+    }
+    async function internalRoot() { return opfsOk ? navigator.storage.getDirectory() : null; }
+
+    async function loadHandle() {
+        if (!pickerOk) return;
+        try { dev = await idbGet(HKEY) || null; } catch (e) { dev = null; }
+        await checkPerm(false);
+    }
+    async function checkPerm(ask) {
+        if (!dev) { devState = 'none'; return false; }
+        try {
+            let p = await dev.queryPermission({ mode: 'readwrite' });
+            if (p !== 'granted' && ask) p = await dev.requestPermission({ mode: 'readwrite' });
+            devState = p === 'granted' ? 'ok' : 'prompt';
+        } catch (e) { devState = 'prompt'; }
+        refreshUI();
+        return devState === 'ok';
+    }
+
+    async function flush() {
+        timer = null;
+        const text = pending; pending = null;
+        if (!text) return;
+        try { const r = await internalRoot(); if (r) { await writeAll(r, text); lastInternal = new Date(); } }
+        catch (e) { console.warn('Archivio interno:', e); }
+        if (dev && devState === 'ok') {
+            try { await writeAll(dev, text); lastDevice = new Date(); LS_set('fd_last_folder_save', lastDevice.toISOString()); }
+            catch (e) { console.warn('Cartella dispositivo:', e); devState = 'prompt'; toast('Non riesco a scrivere nella cartella: toccala in Strumenti per riautorizzarla', 6000); }
+        }
+        refreshUI();
+    }
+    function LS_set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    function onSave(enc) {
+        pending = JSON.stringify(enc, null, 2);
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(flush, 1200);
+    }
+    async function saveNow() {
+        if (typeof activePassword === 'undefined' || !activePassword) return;
+        onSave(await encryptData(db, activePassword));
+        clearTimeout(timer); await flush();
+    }
+
+    async function link() {
+        if (!pickerOk) { alert("Questo browser non permette di creare cartelle sul dispositivo (succede su iPhone/iPad e su alcuni Android). I dati vengono comunque salvati nella cartella interna dell'app. Per una copia sul telefono usa \"Backup cifrato\"."); return; }
+        if (dev && devState === 'prompt') { if (await checkPerm(true)) { await saveNow(); toast('Cartella riautorizzata'); } return; }
+        try {
+            const parent = await window.showDirectoryPicker({ id: 'findash', mode: 'readwrite', startIn: 'documents' });
+            const { app } = await ensureSub(parent);
+            dev = app;
+            await idbSet(HKEY, dev);
+            devState = 'ok';
+            await saveNow();
+            toast('Cartella "' + FOLDER + '" creata: i dati verranno salvati lì', 5000);
+        } catch (e) {
+            if (e && e.name === 'AbortError') return;
+            alert('Impossibile creare la cartella: ' + ((e && e.message) || e));
+        }
+        refreshUI();
+    }
+    async function unlink() {
+        if (!confirm('Scollegare la cartella? I file già salvati restano dove sono.')) return;
+        dev = null; devState = 'none';
+        try { await idbSet(HKEY, null); } catch (e) {}
+        refreshUI();
+    }
+    // dev è già la cartella "Financial Dashboard": writeAll ne crea un'altra dentro. Uso una radice fittizia.
+    const _writeAll = writeAll;
+    writeAll = async function (root, text) {
+        if (root === dev && dev) {
+            const bk = await dev.getDirectoryHandle('Backup', { create: true });
+            await dev.getDirectoryHandle('Report', { create: true });
+            await writeFile(dev, MAIN, text);
+            await writeFile(bk, 'Financial_Dashboard_Backup_' + new Date().toISOString().slice(0, 10) + '.enc', text);
+            await prune(bk);
+            return;
+        }
+        return _writeAll(root, text);
+    };
+
+    async function saveReport(blob, filename) {
+        if (!dev || devState !== 'ok' || /\.enc$/i.test(filename)) return false;
+        try { const rp = await dev.getDirectoryHandle('Report', { create: true }); await writeFile(rp, filename, blob); return true; }
+        catch (e) { return false; }
+    }
+
+    async function collect(dir, label, out) {
+        try {
+            for await (const [n, h] of dir.entries()) if (h.kind === 'file' && /\.enc$/.test(n)) out.push({ n, h, label });
+            const bk = await dir.getDirectoryHandle('Backup');
+            for await (const [n, h] of bk.entries()) if (h.kind === 'file' && /\.enc$/.test(n)) out.push({ n, h, label });
+        } catch (e) {}
+    }
+    async function restore() {
+        const items = [];
+        if (dev && (devState === 'ok' || await checkPerm(true))) await collect(dev, 'Cartella dispositivo', items);
+        try { const r = await internalRoot(); if (r) { const app = await r.getDirectoryHandle(FOLDER); await collect(app, 'Cartella interna', items); } } catch (e) {}
+        if (!items.length) { alert("Nessun file trovato nella cartella dell'app."); return; }
+        const withDate = await Promise.all(items.map(async it => { const f = await it.h.getFile(); return { ...it, f }; }));
+        withDate.sort((a, b) => b.f.lastModified - a.f.lastModified);
+        const list = withDate.slice(0, 20).map((it, i) => (i + 1) + ') ' + it.n + ' — ' + it.label + ' — ' + new Date(it.f.lastModified).toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' })).join('\n');
+        const ans = prompt('Quale file vuoi ripristinare? Scrivi il numero:\n\n' + list, '1');
+        const idx = parseInt(ans, 10) - 1;
+        if (!(idx >= 0 && idx < Math.min(20, withDate.length))) return;
+        const it = withDate[idx];
+        await window.handleFileImport({ target: { files: [new File([await it.f.text()], it.n, { type: 'application/octet-stream' })], value: '' } });
+    }
+
+    function refreshUI() {
+        const el = $('folderStatusLine'), btn = $('folderLinkBtn'), un = $('folderUnlinkBtn');
+        if (!el) return;
+        const fmt = d => d.toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' });
+        let t = opfsOk ? "I dati vengono copiati automaticamente nella cartella interna dell'app." : '';
+        if (!pickerOk) t += ' Questo browser non consente cartelle sul dispositivo: usa "Backup cifrato" per una copia esterna.';
+        else if (devState === 'ok') { t += ' Cartella sul dispositivo: "' + (dev.name || FOLDER) + '" (sottocartelle Backup e Report).'; const l = lastDevice || (localStorage.getItem('fd_last_folder_save') && new Date(localStorage.getItem('fd_last_folder_save'))); if (l) t += ' Ultimo salvataggio: ' + fmt(l) + '.'; }
+        else if (devState === 'prompt') t += ' La cartella sul dispositivo va riautorizzata (tocca il pulsante).';
+        else t += ' Tocca "Crea cartella" e scegli dove crearla (es. Documenti): ogni modifica verrà salvata lì.';
+        el.textContent = t.trim();
+        if (btn) {
+            btn.disabled = !pickerOk;
+            btn.innerHTML = devState === 'ok' ? '<i class="fa-solid fa-floppy-disk mr-1"></i> Salva ora' : devState === 'prompt' ? '<i class="fa-solid fa-unlock mr-1"></i> Riautorizza' : '<i class="fa-solid fa-folder-plus mr-1"></i> Crea cartella';
+            btn.onclick = devState === 'ok' ? async () => { await saveNow(); toast('Salvato nella cartella'); } : link;
+        }
+        if (un) un.classList.toggle('hidden', !dev);
+    }
+
+    const prevOpen = window.openToolsSheet;
+    window.openToolsSheet = function () { if (prevOpen) prevOpen(); refreshUI(); };
+    loadHandle().then(refreshUI);
+    return { onSave, link, unlink, restore, saveNow, saveReport, refreshUI };
+})();
     </script>
 </body>
 </html>
